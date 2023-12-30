@@ -1,12 +1,14 @@
 # TUBES-ALGEO-22002
 
-Selamat datang di repositori TUBES-ALGEO-xxxx, proyek Tugas Besar Aljabar Geometri.
+Selamat datang di repositori TUBES-ALGEO-22002, proyek Tugas Besar Aljabar Geometri.
 
 ## Anggota Tim
-- Nama Anggota 1 (NIMxxxx)
-- Nama Anggota 2 (NIMxxxx)
-- Nama Anggota 3 (NIMxxxx)
-- Nama Anggota 4 (NIMxxxx)
+- 10222002    Deden Khoerul Fahmi       
+- 10222008    Rifa Maulana Ibrahim      
+- 10222037    Rian Abdul Aziz           
+- 10222046    Wahdan Siti Nurfauziyah   
+- 10222148    Siti Rubiah Adawiah       
+- 10222195    Pipin Sopiah              
 
 ## Deskripsi Proyek
 
@@ -47,10 +49,6 @@ Jika Anda ingin berkontribusi pada proyek ini, silakan ikuti langkah berikut:
 ## Laporan
 
 Laporan proyek dapat ditemukan di folder `doc`. Silakan merujuk ke laporan untuk informasi lebih lanjut.
-
-## Undangan Akses
-
-Asisten telah diundang untuk mengakses repositori ini.
 
 ## Catatan Penting
 
