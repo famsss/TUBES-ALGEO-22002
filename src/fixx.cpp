@@ -1,15 +1,15 @@
 #include <iostream>
-#include <fstream> // Header ini untuk membuat file
-#include <iomanip> // Header ini untuk setw
-#include <cmath> // Header ini untuk fungsi matematika
+#include <fstream>  // Header ini untuk menambahkan file 
+#include <iomanip>  // Header ini untuk setw
+#include <cmath>    // Header ini untuk fungsi matematika
 using namespace std;
 
-const int size = 3; // Change the size according to your matrix size
+const int size = 3;
 const int baris = 2;
 const int kolom = 3;
 double matriks[baris][kolom];
 
-// Fungsi untuk menampilkan Menu Utama
+// Fungsi untuk menampilkan menu utama
 void tampilan_Menu_Utama() 
 {
     cout << "===== Menu Utama =====" << endl;
@@ -22,8 +22,8 @@ void tampilan_Menu_Utama()
     cout << "======================" << endl;
 }
 
-// Fungsi untuk menampilkan submenu Pertambahan dan Pengurangan
-void tampilan_Sub_Menu_tambah_kurang() 
+// Fungsi untuk menampilkan submenu pertambahan dan pengurangan
+void tampilan_Sub_Menu_Pertambahan_Pengurangan() 
 {
     cout << "----- Pertambahan dan Pengurangan ----- " << endl;
     cout << "A. Pertambahan" << endl;
@@ -33,46 +33,69 @@ void tampilan_Sub_Menu_tambah_kurang()
 }
 
 // Fungsi untuk menampilkan submenu Transpose
-void tampilan_Sub_Menu_Transpose() 
+void tampilan_Sub_Menu_Ukuran_Matriks() 
 {
-    cout << "----- Perkalian dan Pembagian ----- " << endl;
+    cout << "----- Pilih Ukuran Matriks ----- " << endl;
     cout << "A. 2x2" << endl;
     cout << "B. 3x3" << endl;
     cout << "C. Kembali ke Menu Utama" << endl;
     cout << "-------------------" << endl;
 }
 
-// Fungsi untuk menampilkan submenu Determinan
-void tampilan_Sub_Menu_Determinan() 
+// Fungsi untuk menghitung determinan matriks 2x2
+float determinant(float a, float b, float c, float d) 
 {
-    cout << "----- Perkalian dan Pembagian ----- " << endl;
-    cout << "A. 2x2" << endl;
-    cout << "B. 3x3" << endl;
-    cout << "C. Kembali ke Menu Utama" << endl;
-    cout << "-------------------" << endl;
+    return (a * d - b * c);
 }
 
-// Fungsi untuk menampilkan submenu SPL
-void tampilan_Sub_Menu_SPL() {
-    cout << "----- Sistem Persamaan Linier (2x3) -----" << endl;
-    cout << "A. Input Matriks A (2x3)" << endl;
-    cout << "B. Hitung Solusi" << endl;
-    cout << "C. Kembali ke Menu Utama" << endl;
-    cout << "-------------------" << endl;
+// Fungsi untuk menghitung invers matriks 2x2
+void inverse_Matrix(float a, float b, float c, float d) 
+{
+    // Menghitung determinan
+    float det = determinant(a, b, c, d);
+
+    // Memeriksa apakah matriks memiliki invers (determinan tidak boleh nol)
+    if (det == 0) 
+    {
+        cout << "Matriks tidak memiliki invers." << endl;
+        return;
+    }
+
+    // Menghitung invers matriks
+    float inv_a = d / det;
+    float inv_b = -b / det;
+    float inv_c = -c / det;
+    float inv_d = a / det;
+
+    // Menampilkan matriks awal
+    cout << "Matriks Awal:" << endl;
+    cout << a << "\t" << b << endl;
+    cout << c << "\t" << d << endl;
+
+    // Menampilkan proses perhitungan
+    cout << "\nProses Perhitungan:" << endl;
+    cout << "Determinan = " << det << endl;
+    cout << "Invers:" << endl;
+    cout << inv_a << "\t" << inv_b << endl;
+    cout << inv_c << "\t" << inv_d << endl;
+
+    // Menampilkan hasil
+    cout << "\nMatriks Invers:" << endl;
+    cout << inv_a << "\t" << inv_b << endl;
+    cout << inv_c << "\t" << inv_d << endl;
 }
 
-// Fungsi untuk menampilkan perhitungan Determinan
 void hitung_Determinan(int A[size][size], int n) 
 {
     int det = 0;
     if (n == 2) 
     {
-        // Matriks Determinan ukuran 2x2
+        // Matriks 2x2
         det = A[0][0] * A[1][1] - A[0][1] * A[1][0];
     } 
     else if (n == 3) 
     {
-        // Matriks Determinan ukuran3x3
+        // Matriks 3x3
         det = A[0][0] * (A[1][1] * A[2][2] - A[2][1] * A[1][2]) -
               A[0][1] * (A[1][0] * A[2][2] - A[2][0] * A[1][2]) +
               A[0][2] * (A[1][0] * A[2][1] - A[2][0] * A[1][1]);
@@ -91,7 +114,6 @@ void hitung_Determinan(int A[size][size], int n)
     cout << "Determinan matriks A (" << n << "x" << n << "): " << det << endl;
 }
 
-// Fungsi untuk menampilkan perhitungan Sistem Persamaan Linier
 void spl(int size) 
 {
     int A[size][size + 1];
@@ -127,16 +149,16 @@ void spl(int size)
     }
 }
 
-// Fungsi untuk menangani pilihan di Menu Utama
+// Fungsi untuk menangani pilihan di menu utama
 void prosesMenuUtama(int pilihan) 
 {
     switch (pilihan) 
     {
         case 1:
-            // Pilih menu Pertambahan dan Pengurangan
+            // Pilih menu pertambahan dan pengurangan
             while (true) 
             {
-                tampilan_Sub_Menu_tambah_kurang();
+                tampilan_Sub_Menu_Pertambahan_Pengurangan();
                 char submenu;
                 cout << "Pilih: ";
                 cin >> submenu;
@@ -146,6 +168,7 @@ void prosesMenuUtama(int pilihan)
                 {
                     case 'A':
                     case 'a':
+                        // Input matriks A
                         cout << "Masukkan elemen matriks A:\n";
                         for (int i = 0; i < size; ++i) 
                         {
@@ -163,20 +186,42 @@ void prosesMenuUtama(int pilihan)
                             {
                                 cout << "B[" << i + 1 << "][" << j + 1 << "]: ";
                                 cin >> B[i][j];
-                                result[i][j] = A[i][j] + B[i][j];
+                                
                             }
                         }
-                        // Menampilkan hasil Pertambahan
-                        cout << "Hasil pertambahan matrix A dan B:\n";
+                        cout << "Matriks A :\n";
                         for (int i = 0; i < size; ++i) 
                         {
                             for (int j = 0; j < size; ++j) 
                             {
+                                cout << A[i][j] << " ";
+                            }
+                            std::cout << "\n";
+                        }
+
+                        cout << "Matriks B :\n";
+                        for (int i = 0; i < size; ++i) 
+                        {
+                            for (int j = 0; j < size; ++j) 
+                            {
+                                cout << B[i][j] << " ";
+                            }
+                            std::cout << "\n";
+                        }
+
+                        // Menampilkan matriks hasil setelah pertambahan
+                        std::cout << "Hasil Matriks setelah ditambah:\n";
+                        for (int i = 0; i < size; ++i) 
+                        {
+                            for (int j = 0; j < size; ++j) 
+                            {
+                                result[i][j] = A[i][j] + B[i][j];
                                 cout << result[i][j] << " ";
                             }
                             cout << endl;
                         }
                         break;
+
                     case 'B':
                     case 'b':
                         // Input matriks A
@@ -197,20 +242,42 @@ void prosesMenuUtama(int pilihan)
                             {
                                 cout << "B[" << i + 1 << "][" << j + 1 << "]: ";
                                 cin >> B[i][j];
-                                result[i][j] = A[i][j] - B[i][j];
+                                
                             }
                         }
-                        // Menampilkan hasil Pengurangan
-                        cout << "Hasil pengurangan matrix A dan B:\n";
+                        cout << "Matriks A :\n";
                         for (int i = 0; i < size; ++i) 
                         {
                             for (int j = 0; j < size; ++j) 
                             {
+                                cout << A[i][j] << " ";
+                            }
+                            std::cout << "\n";
+                        }
+
+                        cout << "Matriks B :\n";
+                        for (int i = 0; i < size; ++i) 
+                        {
+                            for (int j = 0; j < size; ++j) 
+                            {
+                                cout << B[i][j] << " ";
+                            }
+                            std::cout << "\n";
+                        }
+
+                        // Menampilkan matriks hasil setelah pengurangan
+                        std::cout << "Hasil Matriks setelah dikurang:\n";
+                        for (int i = 0; i < size; ++i) 
+                        {
+                            for (int j = 0; j < size; ++j) 
+                            {
+                                result[i][j] = A[i][j] - B[i][j];
                                 cout << result[i][j] << " ";
                             }
-                                cout << endl;
+                            cout << endl;
                         }
                         break;
+
                     case 'C':
                     case 'c':
                         // Kembali ke menu utama
@@ -222,24 +289,25 @@ void prosesMenuUtama(int pilihan)
             break;
             
         case 2:
+            
             while (true) 
             {
-                tampilan_Sub_Menu_Transpose();
+                tampilan_Sub_Menu_Ukuran_Matriks();
                 char submenu;
-                cout << "Choose: ";
+                cout << "Pilih: ";
                 cin >> submenu;
                 int A[2][2], B[3][3], result[size][size];
                 switch (submenu) 
                 {
                     case 'A':
                     case 'a':
-                        // Input matrix
-                        cout << "Masukkan elemen matriks A:\n";
+                    // Input matrix
+                    cout << "Masukkan elemen matriks :\n";
                     for (int i = 0; i < 2; ++i) 
                     {
                         for (int j = 0; j < 2; ++j) 
                         {
-                            std::cout << "A[" << i + 1 << "][" << j + 1 << "]: ";
+                            std::cout << "[" << i + 1 << "][" << j + 1 << "]: ";
                             std::cin >> A[i][j];
                         }
                     }
@@ -259,7 +327,7 @@ void prosesMenuUtama(int pilihan)
                         {
                             std::cout << A[i][j] << " ";
                         }
-                    std::cout << "\n";
+                        std::cout << "\n";
                     }
                     std::cout << "Matriks setelah transpose:\n";
                     for (int i = 0; i < 2; ++i) 
@@ -274,12 +342,12 @@ void prosesMenuUtama(int pilihan)
                     case 'B':
                     case 'b':
                         // Input matrix
-                        cout << "Masukkan elemen matriks A:\n";
+                        cout << "Masukkan elemen matriks :\n";
                         for (int i = 0; i < size; ++i) 
                         {
                             for (int j = 0; j < size; ++j) 
                             {
-                                std::cout << "B[" << i + 1 << "][" << j + 1 << "]: ";
+                                std::cout << "[" << i + 1 << "][" << j + 1 << "]: ";
                                 std::cin >> B[i][j];
                             }
                         }
@@ -313,59 +381,37 @@ void prosesMenuUtama(int pilihan)
                     break;
                     case 'C':
                     case 'c':
-                        // Kembali ke menu utama
-                        return;
-                        default:
-                        cout << "Pilihan tidak valid." << endl;
+                    // Back to main menu
+                    return;
+                    default:
+                    cout << "Pilihan tidak valid." << endl;
                 }
             }
             break;
-            
         case 3:
             while (true) 
-            { 
-                // Pilih submenu ukuran Matriks
-                int A[2][2], B[3][3], result[size][size];
-                cout << "Masukkan elemen matriks A (2x2):\n";
-                for (int i = 0; i < 2; ++i) 
-                {
-                    for (int j = 0; j < 2; ++j) 
-                    {
-                        cout << "A[" << i + 1 << "][" << j + 1 << "]: ";
-                        cin >> A[i][j];
-                    }
-                }
-                // Menghitung Matriks Determinan ukuran 2x2
-                int det = A[0][0] * A[1][1] - A[0][1] * A[1][0];
-                if (det == 0) 
-                {
-                    cout << "Determinant is zero. Inverse does not exist." << endl;
-                    return;
-                }
-                // Menghitung Matriks Inverse ukuran 2x2
-                result[0][0] = A[1][1] / det;
-                result[0][1] = -A[0][1] / det;
-                result[1][0] = -A[1][0] / det;
-                result[1][1] = A[0][0] / det;
-                // Menampilkan Matriks Inverse ukuran 2x2
-                cout << "Matriks inverse A (2x2):\n";
-                for (int i = 0; i < 2; ++i) 
-                {
-                    for (int j = 0; j < 2; ++j) 
-                    {
-                        cout << result[i][j] << " ";
-                    }
-                    cout << "\n";
-                }
-                cout << "\n";
-                return;
+            {
+                // Memasukkan elemen-elemen matriks dari pengguna
+                float a, b, c, d;
+                cout << "Masukkan elemen-elemen matriks 2x2:" << endl;
+                cout << "[1][1]: ";
+                cin >> a;
+                cout << "[1][2]: ";
+                cin >> b;
+                cout << "[2][1]: ";
+                cin >> c;
+                cout << "[2][2]: ";
+                cin >> d;
+                // Memanggil fungsi untuk menghitung invers matriks
+                inverse_Matrix(a, b, c, d);
+                return ;
             }
             break;
-            
+
         case 4:
             while (true) 
             {
-                tampilan_Sub_Menu_Determinan();
+                tampilan_Sub_Menu_Ukuran_Matriks();
                 char submenu;
                 cout << "Pilih: ";
                 cin >> submenu;
@@ -374,13 +420,13 @@ void prosesMenuUtama(int pilihan)
                 {
                     case 'A':
                     case 'a':
-                        // Input matriks Determinan 2x2
-                        cout << "Masukkan elemen matriks A (2x2):\n";
+                        // Input matriks 2x2
+                        cout << "Masukkan elemen matriks (2x2):\n";
                         for (int i = 0; i < 2; ++i) 
                         {
                             for (int j = 0; j < 2; ++j) 
                             {
-                                cout << "A[" << i + 1 << "][" << j + 1 << "]: ";
+                                cout << "[" << i + 1 << "][" << j + 1 << "]: ";
                                 cin >> A[i][j];
                             }
                         }
@@ -389,17 +435,17 @@ void prosesMenuUtama(int pilihan)
                         break;
                     case 'B':
                     case 'b':
-                        // Input matriks Determinan 3x3
-                        cout << "Masukkan elemen matriks A (3x3):\n";
+                        // Input matriks 3x3
+                        cout << "Masukkan elemen matriks (3x3):\n";
                         for (int i = 0; i < 3; ++i) 
                         {
                             for (int j = 0; j < 3; ++j) 
                             {
-                                cout << "A[" << i + 1 << "][" << j + 1 << "]: ";
+                                cout << "[" << i + 1 << "][" << j + 1 << "]: ";
                                 cin >> A[i][j];
                             }
                         }
-                        // Hitung Matriks Determinan dan tampilkan hasil
+                        // Hitung determinan dan tampilkan hasil
                         hitung_Determinan(A, 3);
                         break;
                     case 'C':
@@ -411,100 +457,88 @@ void prosesMenuUtama(int pilihan)
                 }
             }
             break;
-            
-		case 5:
-    		while (true) 
-			{
-       		 	// Matriks koefisien
-        		double matriks[baris][kolom];
-    		    // Input matriks dari pengguna
-    		    cout << "Masukkan matriks koefisien (2x3):\n";
-    		    for (int i = 0; i < baris; ++i) 
-				{
-    		        for (int j = 0; j < kolom; ++j) 
-					{
-        		        cout << "Masukkan elemen matriks[" << i + 1 << "][" << j + 1 << "]: ";
-                		cin >> matriks[i][j];
-            		}
-        		}
-        		// Menampilkan matriks
-        		cout << "\nMatriks koefisien yang dimasukkan:\n";
-        		for (int i = 0; i < baris; ++i) 
-				{
-    		        for (int j = 0; j < kolom; ++j) 
-					{
-      			        cout << setw(8) << matriks[i][j];
-            		}
-            		cout << endl;
-        		}
-        		// Solusi sistem persamaan linier
-        		if (matriks[0][0] * matriks[1][1] == matriks[0][1] * matriks[1][0]) 
-				{
-            		cout << "\nSistem persamaan linier tidak memiliki solusi unik.\n";
-        		} 
-				else 
-				{
-            		// Menggunakan metode eliminasi Gauss untuk menyelesaikan sistem persamaan
-            		double faktor = matriks[1][0] / matriks[0][0];
-            		for (int j = 0; j < kolom; ++j) 
-					{
-                		matriks[1][j] -= faktor * matriks[0][j];
-            		}
-            		// Menampilkan matriks setelah eliminasi Gauss
-            		cout << "\nMatriks setelah eliminasi Gauss:\n";
-            		for (int i = 0; i < baris; ++i) 
-					{
-                		for (int j = 0; j < kolom; ++j) 
-						{
-                    		cout << setw(8) << matriks[i][j];
-                		}
-                		cout << endl;
-            		}
-            		// Menemukan solusi
-            		double x2 = matriks[1][2] / matriks[1][1];
-            		double x1 = (matriks[0][2] - matriks[0][1] * x2) / matriks[0][0];
-		            // Menampilkan solusi
-        		    cout << "\nSolusi sistem persamaan linier:\n";
-        		    cout << "x1 = " << x1 << endl;
-        		    cout << "x2 = " << x2 << endl;
-        		}
-        		cout << "\n";
-        		return;
-    		}
-    			break;
-    			
-    	case 7:
+        case 5:
             while (true) 
             {
-            	// Pembuatan File
-    		    std::ofstream outputFile("data_uji.txt");
-    			// Contoh data uji: Nama dan Usia
-    			for (int i = 1; i <= 10; ++i) 
-				{
-        			outputFile << "Pengguna" << i << " " << 20 + i << std::endl;
-    			}
-    			outputFile.close();
-    			std::cout << "File data_uji.txt berhasil dibuat." << std::endl;
-    			return;
-    		}
-        case 6:
+                // Matriks koefisien
+                double matriks[baris][kolom];
+                // Input matriks dari pengguna
+                cout << "Masukkan matriks koefisien (2x3):\n";
+                for (int i = 0; i < baris; ++i) 
+                {
+                    for (int j = 0; j < kolom; ++j) 
+                    {
+                        cout << "[" << i + 1 << "][" << j + 1 << "]: ";
+                        cin >> matriks[i][j];
+                    }
+                }
+                // Menampilkan matriks
+                cout << "\nMatriks koefisien yang dimasukkan:\n";
+                for (int i = 0; i < baris; ++i) 
+                {
+                    for (int j = 0; j < kolom; ++j) 
+                    {
+                        cout << setw(8) << matriks[i][j];
+                    }
+                    cout << endl;
+                }
+                // Solusi sistem persamaan linier
+                if (matriks[0][0] * matriks[1][1] == matriks[0][1] * matriks[1][0]) 
+                {
+                    cout << "\nSistem persamaan linier tidak memiliki solusi unik.\n";
+                } 
+                else 
+                {
+                    // Menggunakan metode eliminasi Gauss untuk menyelesaikan sistem persamaan
+                    double faktor = matriks[1][0] / matriks[0][0];
+                    for (int j = 0; j < kolom; ++j) 
+                    {
+                        matriks[1][j] -= faktor * matriks[0][j];
+                    }
+                    // Menampilkan matriks setelah eliminasi Gauss
+                    cout << "\nMatriks setelah eliminasi Gauss:\n";
+                    for (int i = 0; i < baris; ++i) 
+                    {
+                        for (int j = 0; j < kolom; ++j) 
+                        {
+                            cout << setw(8) << matriks[i][j];
+                        }
+                        cout << endl;
+                    }
+                    // Menemukan solusi
+                    double x2 = matriks[1][2] / matriks[1][1];
+                    double x1 = (matriks[0][2] - matriks[0][1] * x2) / matriks[0][0];
+                    // Menampilkan solusi
+                    cout << "\nSolusi sistem persamaan linier:\n";
+                    cout << "x1 = " << x1 << endl;
+                    cout << "x2 = " << x2 << endl;
+                }
+                cout << "\n";
+                return;
+            }
+            break;
+
+            case 6:
             // Keluar dari program
             cout << "Program selesai." << endl;
-            cout << "   Terima kasih!" << endl;
+            cout << "Terima kasih!" << endl;
             exit(0);
             default:
             cout << "Pilihan tidak valid." << endl;
+        
     }
 }
 
 int main() 
 {
     while (true) 
-	{
+    {
         tampilan_Menu_Utama();
+
         int pilihan;
         cout << "Pilih: ";
         cin >> pilihan;
+
         prosesMenuUtama(pilihan);
     }
 
